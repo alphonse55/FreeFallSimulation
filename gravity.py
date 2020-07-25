@@ -3,26 +3,26 @@ from matplotlib import pyplot as plt
 import math
 
 # VARIABLES
-planet = str(input("Pianeta (Terra , Luna , Marte , Giove): "))
-h0 = float(input("Altezza iniziale (in m): "))
-v0 = float(input("Velocità iniziale (in m/s): "))
-tempo = int(input("Tempo (in s): "))
+planet = str(input("Planet (Earth , Moon , Mars , Jupyter): "))
+h0 = float(input("Initial height (in m): "))
+v0 = float(input("Initial speed (in m/s): "))
+time = int(input("Time to simulate (in s): "))
 dt = float(input("dt: "))
 
-if planet == "Terra":
+if planet == "Earth":
     a = -9.80665
-elif planet == "Luna":
+elif planet == "Moon":
     a = -1.62
-elif planet == "Marte":
+elif planet == "Mars":
     a = -3.711
-elif planet == "Giove":
+elif planet == "Jupyter":
     a = -24.79
 
-t = 0  # t0
+t = 0
 h = h0
 v = v0
-rimbalzo = False  # già rimbalzato o no?
-s = 0  # tempo partendo dal rimbalzo
+rebound = False
+s = 0
 
 t_values = []
 h_values = []
@@ -30,16 +30,16 @@ v_values = []
 
 
 # OPERATIONS
-for i in range(0, int(tempo/dt)+1):
+for i in range(0, int(time/dt)+1):
 
     s += dt
 
     t_values.append(t)
 
-    if rimbalzo == False:
+    if rebound == False:
         v = v0 + a*t
         h = h0 + v0*t + (a*t**2)/2
-    elif rimbalzo == True:
+    elif rebound == True:
         v = v0 + a*s
         h = v*s + (a*s**2)/2
 
@@ -51,28 +51,27 @@ for i in range(0, int(tempo/dt)+1):
 
     if h <= 0:
         v0 = -v
-        rimbalzo = True
+        rebound = True
         s = 0
 
     t += dt
 
 
-# LINEA DELLO 0
 count = []
 zero = []
 
-for i in range(0, tempo+1):
+for i in range(0, time+1):
     count.append(i)
     zero.append(0)
 
 # PLOT
-plt.figure("Caduta libera su", planet)
+plt.figure("Free fall on " + planet)
 plt.plot(t_values, h_values)
 plt.plot(count, zero)
 # plt.plot(t_values, v_values)
 plt.xlabel("t(s)")
 plt.ylabel("h(m)")
-plt.title("Altezza in funzione del tempo")
+plt.title("Height - Time")
 
 # plt.figure(2)
 # plt.plot(t_values, v_values)
